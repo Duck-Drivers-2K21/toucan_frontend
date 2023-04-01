@@ -2,20 +2,6 @@
   height: 55vh;
 }
 
-.sidebar {
-  background-color: rgba(35, 55, 75, 0.9);
-  color: #fff;
-  padding: 6px 12px;
-  font-family: monospace;
-  z-index: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 12px;
-  border-radius: 4px;
-}
-
-
 @font-face {
   font-family: 'Aharoni';
   src: local('Aharoni'), url("./fonts/Aharoni/Aharoni-bold.ttf") format('truetype');
@@ -28,6 +14,7 @@
 .Title {
   text-align: center;
   font-size: 5em;
+  margin-bottom: 5vh;
 }
 
 .Title-first {
@@ -42,6 +29,32 @@
   border: solid 2px lightgrey;
   border-radius: 1%;
   margin: 1em;
+}
+
+.Notifications {
+  position: relative;
+}
+
+.Notifications-inner {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  left: 82.5%;
+  top: 0;
+  margin: 12px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.Notifications-inner--active {
+  color: #06D6A0;
+}
+
+.Notifications-inner--drawing {
+  color: #FFD166;
 }
 
 .BottomContent {
