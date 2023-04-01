@@ -1,5 +1,5 @@
 .map-container {
-  height: 500px;
+  height: 55vh;
 }
 
 .sidebar {
@@ -22,7 +22,7 @@
 }
 
 .App {
-  font-family: "Aharoni";
+  font-family: "Aharoni", sans-serif;
 }
 
 .Title {
