@@ -50,5 +50,10 @@
   left: 50%;
   translate: -50%;
   font-family: "Courier New", monospace;
-  font-size: 1.3em;
+  font-size: 1.2em;
+}
+
+.BottomContent p {
+  margin-top: 0;
+  margin-bottom: 0.5em;
 }
