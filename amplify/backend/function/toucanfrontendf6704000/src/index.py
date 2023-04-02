@@ -26,7 +26,22 @@ def handler(event, context):
             latest_items[partition_key_value] = item
 
     # Convert the latest_items dictionary to a list
+
     latest_items_list = list(latest_items.values())
+    converted = []
+
+    hardcoded_latlngs = {
+        "36:8f:3b:e1:44:db": [-2.381645795282588, 51.377276174474474]
+    }
+
+    for item in latest_items_list:
+        temp = item
+        temp['TOD'] = float(item['TOD'])
+
+        if temp['WebcamID'] in hardcoded_latlngs:
+            temp['Location'] = hardcoded_latlngs[temp['WebcamID']]
+
+        converted.append(temp)
 
     return {
         'statusCode': 200,
@@ -35,5 +50,5 @@ def handler(event, context):
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
         },
-        'body': json.dumps(latest_items_list)
+'body': json.dumps(converted)
     }
