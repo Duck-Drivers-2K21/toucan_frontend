@@ -26,15 +26,13 @@ function App() {
 
 function ParknMap(props) {
   useEffect(() => {
-    const apiName = 'apiapie0e8399f';
-    const path = '/dev';
+    const apiName = 'apie0e8399f';
+    const path = '/spaces';
     const myInit = {}
 
         API.get(apiName, path, myInit)
       .then((response) => {
-        console.log(response)
-        const res = JSON.parse(response);
-        setLatestParkingReports(res);
+        setLatestParkingReports(response);
       })
       .catch((error) => {
         console.log(error.response);
@@ -113,7 +111,7 @@ function ParknMap(props) {
             />}
               {
               latestParkingReports.map(item =>
-                <Marker longitude={item.Location[0]} latitude={item.Location[1]} color={!item.spaces ? "#EF476F" : "#06D6A0"} />
+                <Marker key={item.WebcamID} longitude={item.Location[0]} latitude={item.Location[1]} color={!item.spaces ? "#EF476F" : "#06D6A0"} />
               )
               }
               </Map>
