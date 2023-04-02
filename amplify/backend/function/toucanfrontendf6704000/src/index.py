@@ -31,7 +31,8 @@ def handler(event, context):
     converted = []
 
     hardcoded_latlngs = {
-        "36:8f:3b:e1:44:db": [-2.381645795282588, 51.377276174474474]
+        "36:8f:3b:e1:44:db": [-2.381645795282588, 51.377276174474474],
+        "5f:4b:0e:01:5f:e4": [-2.3230542852726384, 51.37800502420777],
     }
 
     for item in latest_items_list:
@@ -40,6 +41,8 @@ def handler(event, context):
 
         if temp['WebcamID'] in hardcoded_latlngs:
             temp['Location'] = hardcoded_latlngs[temp['WebcamID']]
+        else:
+            temp['Location'] = [-2.380201974283754, 51.37704846937747]
 
         converted.append(temp)
 

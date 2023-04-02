@@ -96,9 +96,9 @@ function ParknMap(props) {
             </div>
             <Map
               initialViewState={{
-              longitude: -2.380648016392195,
-                latitude: 51.3772087462643,
-                zoom: 15
+              longitude: -2.355089926070656,
+                latitude: 51.377153913029645,
+                zoom: 12
             }}
               style={{height: '55vh'}}
               mapStyle="mapbox://styles/mapbox/streets-v9"
