@@ -10,8 +10,6 @@ var classNames = require('classnames');
 
 function App() {
 
-  const latestParkingReports = [{"location": {"lat": 0, "lng": 0},"spots": 1}, {"location": {"lat": 0, "lng": 0},"spots": 0}]
-
   return (
     <div className="App">
       <h1 className="Title"><span className="Title-first">park</span><span className="Title-second">n</span></h1>
@@ -25,27 +23,38 @@ function App() {
 }
 
 function ParknMap(props) {
-  const [notifications, setNotifications] = useState(false);
+  const latestParkingReports = [{"location": [-2.3815599675261634, 51.37718865575024],"spots": 1}, {"location": [-2.3801652189503812, 51.377088203047194],"spots": 0}]
+
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [subscribedWebcamIds, setSubscribedWebcamIds] = useState([])
   const [drawingSubscriptionArea, setDrawingSubscriptionArea] = useState(false);
 
-//  const mapRef = React.useRef();
-//
-//  const onMapLoad = React.useCallback(() => {
-//    mapRef.current.on('draw.create', () => {
-//      setDrawingSubscriptionArea(false);
-//      setNotifications(true);
-//    });
-//    }, []);
+  const mapRef = React.useRef();
+
+  const onMapLoad = React.useCallback(() => {
+    mapRef.current.on('draw.create', (e) => {
+      const polygon = e.features[0].geometry.coordinates;
+      console.log(polygon)
+      for (let report of latestParkingReports) {
+        console.log(report.location)
+        console.log(isPointInPolygon(report.location, polygon))
+      }
+
+      setDrawingSubscriptionArea(false);
+      setNotificationsEnabled(true);
+    });
+    }, []);
 
   const handleNotificationsClick = () => {
     if (drawingSubscriptionArea) {
-      setNotifications(false);
+      setNotificationsEnabled(false);
+      setDrawingSubscriptionArea(false);
       return
     }
 
-    if (notifications) {
+    if (notificationsEnabled) {
       // Clear notifications
-      setNotifications(false);
+      setNotificationsEnabled(false);
       return
     }
 
@@ -57,8 +66,8 @@ function ParknMap(props) {
             <div className="Notifications" onClick={handleNotificationsClick}>
               <div className="Notifications-inner">
                 {
-                  (drawingSubscriptionArea || notifications) ? <BsBellFill className={classNames({
-                    'Notifications-inner--active': notifications,
+                  (drawingSubscriptionArea || notificationsEnabled) ? <BsBellFill className={classNames({
+                    'Notifications-inner--active': notificationsEnabled,
                     'Notifications-inner--drawing': drawingSubscriptionArea,
                   })}/> : <BsBell/>
                 }
@@ -72,9 +81,39 @@ function ParknMap(props) {
             }}
               style={{height: '55vh'}}
               mapStyle="mapbox://styles/mapbox/streets-v9"
-              mapboxAccessToken="pk.eyJ1Ijoiam9laGQiLCJhIjoiY2xmeWltMXQwMDU3ZDNnbXRmdHZwaTJ1biJ9.mQSsSFiAuy7APNzYxa7cWg"/>
+              mapboxAccessToken="pk.eyJ1Ijoiam9laGQiLCJhIjoiY2xmeWltMXQwMDU3ZDNnbXRmdHZwaTJ1biJ9.mQSsSFiAuy7APNzYxa7cWg"
+              ref={mapRef} onLoad={onMapLoad}
+            >
+              {drawingSubscriptionArea && <DrawControl
+                displayControlsDefault={false}
+                defaultMode="draw_polygon"
+            />}
+              </Map>
           </div>
           );
+}
+
+function DrawControl(props) {
+  useControl(() => new MapboxDraw(props), {
+    position: props.position
+  });
+
+  return null;
+}
+
+function isPointInPolygon(point, polygon) {
+  const [ x, y ] = point;
+  let inside = false;
+
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const xi = polygon[i][0], yi = polygon[i][1];
+    const xj = polygon[j][0], yj = polygon[j][1];
+
+    const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
 }
 
 export default App;
