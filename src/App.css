@@ -62,6 +62,12 @@
   font-size: 16px;
 }
 
+@media screen and (min-width: 600px) and (min-height: 400px) {
+  .Notifications-inner {
+    left: 90%;
+  }
+}
+
 @media screen and (min-width: 1281px) and (min-height: 721px) {
   .Notifications-inner {
     left: 95%;
