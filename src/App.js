@@ -89,7 +89,7 @@ function ParknMap(props) {
       .catch((error) => {
         console.log(error.response);
       })}
-    
+    getData();
     setInterval(getData, 10000);
   }, [])
 
