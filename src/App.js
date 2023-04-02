@@ -4,6 +4,7 @@ import Map, {useControl} from 'react-map-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { BsBellFill, BsBell } from 'react-icons/bs';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import inside from 'point-in-polygon-hao'
 
 var classNames = require('classnames');
 
@@ -23,7 +24,7 @@ function App() {
 }
 
 function ParknMap(props) {
-  const latestParkingReports = [{"location": [-2.3815599675261634, 51.37718865575024],"spots": 1}, {"location": [-2.3801652189503812, 51.377088203047194],"spots": 0}]
+  const latestParkingReports = [{"id": 1, "location": [-2.3815599675261634, 51.37718865575024],"spots": 1}, {"id": 2, "location": [-2.3801652189503812, 51.377088203047194],"spots": 0}]
 
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [subscribedWebcamIds, setSubscribedWebcamIds] = useState([])
@@ -34,13 +35,16 @@ function ParknMap(props) {
   const onMapLoad = React.useCallback(() => {
     mapRef.current.on('draw.create', (e) => {
       const polygon = e.features[0].geometry.coordinates;
-      console.log(polygon)
+      let subbedIds = [];
       for (let report of latestParkingReports) {
-        console.log(report.location)
-        console.log(isPointInPolygon(report.location, polygon))
+        if (inside(report.location, polygon)) {
+          subbedIds.push(report.id);
+        }
       }
+      setSubscribedWebcamIds(subbedIds);
 
       setDrawingSubscriptionArea(false);
+      mapRef.current.getMap()["doubleClickZoom"].enable()
       setNotificationsEnabled(true);
     });
     }, []);
@@ -49,16 +53,18 @@ function ParknMap(props) {
     if (drawingSubscriptionArea) {
       setNotificationsEnabled(false);
       setDrawingSubscriptionArea(false);
+      mapRef.current.getMap()["doubleClickZoom"].enable()
       return
     }
 
     if (notificationsEnabled) {
-      // Clear notifications
       setNotificationsEnabled(false);
+      mapRef.current.getMap()["doubleClickZoom"].enable();
       return
     }
 
     setDrawingSubscriptionArea(true);
+    mapRef.current.getMap()["doubleClickZoom"].disable()
   }
 
   return (
@@ -99,21 +105,6 @@ function DrawControl(props) {
   });
 
   return null;
-}
-
-function isPointInPolygon(point, polygon) {
-  const [ x, y ] = point;
-  let inside = false;
-
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const xi = polygon[i][0], yi = polygon[i][1];
-    const xj = polygon[j][0], yj = polygon[j][1];
-
-    const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-    if (intersect) inside = !inside;
-  }
-
-  return inside;
 }
 
 export default App;

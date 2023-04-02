@@ -2,6 +2,12 @@
   height: 55vh;
 }
 
+@media screen and (min-width: 1280px) and (min-height: 720px) {
+  .map-container {
+    height: 75vh;
+  }
+}
+
 @font-face {
   font-family: 'Aharoni';
   src: local('Aharoni'), url("./fonts/Aharoni/Aharoni-bold.ttf") format('truetype');
@@ -47,6 +53,12 @@
   margin: 12px;
   border-radius: 4px;
   font-size: 16px;
+}
+
+@media screen and (min-width: 1281px) and (min-height: 721px) {
+  .Notifications-inner {
+    left: 95%;
+  }
 }
 
 .Notifications-inner--active {
