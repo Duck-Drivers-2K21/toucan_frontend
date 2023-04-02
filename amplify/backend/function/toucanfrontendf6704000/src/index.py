@@ -4,7 +4,7 @@ from collections import defaultdict
 
 def handler(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('')
+    table = dynamodb.Table('toucan-dynamoDB2')
 
     # Define the partition key and sort key names
     partition_key = 'WebcamId'
