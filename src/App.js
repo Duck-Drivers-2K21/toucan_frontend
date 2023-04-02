@@ -5,11 +5,26 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { BsBellFill, BsBell } from 'react-icons/bs';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import inside from 'point-in-polygon-hao'
+import { API } from 'aws-amplify';
 
 var classNames = require('classnames');
 
 
 function App() {
+
+  useEffect(() => {
+    const apiName = 'apiapie0e8399f';
+    const path = '/dev';
+    const myInit = {}
+
+        API.get(apiName, path, myInit)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  })
 
   return (
     <div className="App">
