@@ -77,7 +77,7 @@ function App() {
 
 function ParknMap(props) {
   useEffect(() => {
-    setInterval(() => {
+    const getData = () => {
       const apiName = 'apie0e8399f';
       const path = '/spaces';
       const myInit = {}
@@ -88,7 +88,9 @@ function ParknMap(props) {
       })
       .catch((error) => {
         console.log(error.response);
-      })}, 10000)
+      })}
+    
+    setInterval(getData, 10000);
   }, [])
 
   const [latestParkingReports, setLatestParkingReports] = useState([])
