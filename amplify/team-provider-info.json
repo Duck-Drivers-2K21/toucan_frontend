@@ -15,7 +15,7 @@
       "function": {
         "toucanfrontendf6704000": {
           "deploymentBucketName": "amplify-toucanfrontend-dev-60304-deployment",
-          "s3Key": "amplify-builds/toucanfrontendf6704000-68657964655734684636-build.zip"
+          "s3Key": "amplify-builds/toucanfrontendf6704000-53676b3242666745444f-build.zip"
         }
       },
       "hosting": {

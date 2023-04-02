@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
-import Map, {useControl} from 'react-map-gl';
+import Map, {useControl, Marker} from 'react-map-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { BsBellFill, BsBell } from 'react-icons/bs';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -11,20 +11,6 @@ var classNames = require('classnames');
 
 
 function App() {
-
-  useEffect(() => {
-    const apiName = 'apiapie0e8399f';
-    const path = '/dev';
-    const myInit = {}
-
-        API.get(apiName, path, myInit)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  })
 
   return (
     <div className="App">
@@ -39,7 +25,23 @@ function App() {
 }
 
 function ParknMap(props) {
-  const latestParkingReports = [{"id": 1, "location": [-2.3815599675261634, 51.37718865575024],"spots": 1}, {"id": 2, "location": [-2.3801652189503812, 51.377088203047194],"spots": 0}]
+  useEffect(() => {
+    const apiName = 'apiapie0e8399f';
+    const path = '/dev';
+    const myInit = {}
+
+        API.get(apiName, path, myInit)
+      .then((response) => {
+        console.log(response)
+        const res = JSON.parse(response);
+        setLatestParkingReports(res);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  })
+
+  const [latestParkingReports, setLatestParkingReports] = useState([])
 
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [subscribedWebcamIds, setSubscribedWebcamIds] = useState([])
@@ -109,6 +111,11 @@ function ParknMap(props) {
                 displayControlsDefault={false}
                 defaultMode="draw_polygon"
             />}
+              {
+              latestParkingReports.map(item =>
+                <Marker longitude={item.Location[0]} latitude={item.Location[1]} color={!item.spaces ? "#EF476F" : "#06D6A0"} />
+              )
+              }
               </Map>
           </div>
           );
