@@ -68,8 +68,8 @@ function App() {
         {goofyNumber.toFixed(1)} {goofyUnit} in weight of co2 saved so far!
       </div>
       <div className="BottomContent">
-        <p>About | Join</p>
-        <p>Made with <span className="BottomContent-loveHeart">&lt;3</span></p>
+        {/* <p>About | Join</p>
+        <p>Made with <span className="BottomContent-loveHeart">&lt;3</span></p> */}
       </div>
     </div>
   );
