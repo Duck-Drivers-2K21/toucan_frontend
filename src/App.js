@@ -12,10 +12,61 @@ var classNames = require('classnames');
 
 function App() {
 
+  const ditchCarbonMileCo2Kg = 0.29203;
+  const goofyConversions = {
+    "rubber ducks": 0.0198,
+    "jelly beans": 0.002,
+    "ping pong balls": 0.01,
+    "bananas": 0.01,
+    "pencils": 0.005,
+    "pizzas": 0.05,
+    "bagsof popcorn": 0.025,
+    "cups of tea": 0.24
+  }
+
+  const timestampInSeconds = 1680422616;
+
+  const minutesSinceTimestamp = (timestampInSeconds) => {
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+    const elapsedSeconds = currentTimeInSeconds - timestampInSeconds;
+    return Math.floor(elapsedSeconds / 60);
+  }
+
+  const minsPerMile = 10;
+
+  const co2Saved = () => {
+    const mins = minutesSinceTimestamp(timestampInSeconds)
+    const co2 = ditchCarbonMileCo2Kg * (mins / minsPerMile);
+    return co2
+  }
+
+  const selectGoofyUnit = () => {
+    const keys = Object.keys(goofyConversions);
+    const randomIndex = Math.floor(Math.random() * keys.length);
+    return keys[randomIndex];
+  }
+
+  const [goofyUnit, setGoofyUnit] = useState();
+  const [goofyNumber, setGoofyNumber] = useState();
+
+  useEffect(() => {
+    const unit = selectGoofyUnit()
+    setGoofyUnit(unit);
+    setGoofyNumber(co2Saved() / goofyConversions[unit]);
+  }, [])
+
+
+  if (goofyUnit == undefined) {
+    return;
+  }
+
   return (
     <div className="App">
       <h1 className="Title"><span className="Title-first">park</span><span className="Title-second">n</span></h1>
       <ParknMap/>
+      <div className="CarbonSavings">
+        {goofyNumber.toFixed(1)} {goofyUnit} in weight of co2 saved so far!
+      </div>
       <div className="BottomContent">
         <p>About | Join</p>
         <p>Made with <span className="BottomContent-loveHeart">&lt;3</span></p>
@@ -98,7 +149,7 @@ function ParknMap(props) {
               initialViewState={{
               longitude: -2.355089926070656,
                 latitude: 51.377153913029645,
-                zoom: 12
+                zoom: 11
             }}
               style={{height: '55vh'}}
               mapStyle="mapbox://styles/mapbox/streets-v9"

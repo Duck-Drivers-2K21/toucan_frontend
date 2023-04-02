@@ -69,6 +69,12 @@
   color: #FFD166;
 }
 
+.CarbonSavings {
+  margin: 0.5em;
+  text-align: center;
+  font-family: "Courier New", monospace;
+}
+
 .BottomContent {
   position: absolute;
   bottom: 0;
