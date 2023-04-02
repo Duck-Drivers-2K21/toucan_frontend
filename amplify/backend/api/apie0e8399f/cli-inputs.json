@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/spaces": {
+      "name": "/spaces",
+      "lambdaFunction": "toucanfrontendf6704000",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
