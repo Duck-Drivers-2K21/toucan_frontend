@@ -7,7 +7,7 @@ def handler(event, context):
     table = dynamodb.Table('toucan-dynamoDB2')
 
     # Define the partition key and sort key names
-    partition_key = 'WebcamId'
+    partition_key = 'WebcamID'
     sort_key = 'TOD'
 
     # Perform the Scan operation
@@ -17,6 +17,7 @@ def handler(event, context):
     # Group items by partition key and select the latest entry for each partition key
     latest_items = defaultdict(dict)
     for item in items:
+        print(item)
         partition_key_value = item[partition_key]
         sort_key_value = item[sort_key]
 
